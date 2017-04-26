@@ -3,6 +3,6 @@
 *.pkl
 *.swp
 *.json
-/robot-student-management
+#/robot-student-management
 /__pycache__
 
