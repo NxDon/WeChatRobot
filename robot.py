@@ -13,10 +13,12 @@ for m in 'requests', 'urllib3':
 bot = Bot(cache_path=True)
 
 # 开启 puid 获取功能，指定 puid 映射数据的保存路径
-enable_puid('wxpy_puid.pkl')
+bot.enable_puid('wxpy_puid.pkl')
 
 @bot.register()
 def auto_reply(msg):
+    print(msg.chat)
+    print(msg)
     if isinstance(msg.chat,Group):
         print('2')
         sender = msg.sender
@@ -28,6 +30,7 @@ def auto_reply(msg):
             if (res_data['type']=='Text'):
                 sender.send(res_data['info'])
     else:
+        print('1')
         sender = msg.sender
         if (msg.type == 'Friends'):
             sender = bot.accept_friend(msg.card)
@@ -50,5 +53,6 @@ def auto_reply(msg):
             if (res_data['type']=='Text'):
                 sender.send(res_data['info'])
    
+    print('3')
 embed()
 
