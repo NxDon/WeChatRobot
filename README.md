@@ -4,6 +4,14 @@
 #### 运行后台程序 robot-student-management
 
 ```
+➜  robot-if-else git:(master) git clone https://github.com/Aym-fuhong/robot-student-management.git
+Cloning into 'robot-student-management'...
+remote: Counting objects: 250, done.
+remote: Compressing objects: 100% (130/130), done.
+remote: Total 250 (delta 155), reused 207 (delta 112), pack-reused 0
+Receiving objects: 100% (250/250), 30.66 KiB | 0 bytes/s, done.
+Resolving deltas: 100% (155/155), done.
+Checking connectivity... done.
 ➜  robot-if-else git:(master) ✗ cd robot-student-management 
 ➜  robot-student-management git:(master) npm start
 
