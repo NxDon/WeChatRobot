@@ -17,8 +17,6 @@ enable_puid('wxpy_puid.pkl')
 
 @bot.register()
 def auto_reply(msg):
-    print(msg.chat)
-    print(msg)
     if isinstance(msg.chat,Group):
         print('2')
         sender = msg.sender
@@ -30,7 +28,6 @@ def auto_reply(msg):
             if (res_data['type']=='Text'):
                 sender.send(res_data['info'])
     else:
-        print('1')
         sender = msg.sender
         if (msg.type == 'Friends'):
             sender = bot.accept_friend(msg.card)
@@ -53,6 +50,5 @@ def auto_reply(msg):
             if (res_data['type']=='Text'):
                 sender.send(res_data['info'])
    
-    print('3')
 embed()
 
