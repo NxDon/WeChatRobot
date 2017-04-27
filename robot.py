@@ -29,6 +29,18 @@ def auto_reply(msg):
             res_data = json.loads(res.text)
             if (res_data['type']=='Text'):
                 sender.send(res_data['info'])
+#        if (msg.type  in ['Picture','Recording','Attachment','Video'] ):
+#            print(msg.file_name)
+#            file_path = './data/' + msg.file_name
+#            print('1')
+#            msg.get_file(file_path)
+#            print('2')
+#            message = {'type':msg.type,'text':msg.text,'file_path':file_path}
+#            print('3')
+#            data = {'sender_puid':sender.puid,'member_puid':'','message' : message}
+#            print('4')
+#            res = requests.post('http://localhost:3000/wechat',json = data)
+#            print('5')
     else:
         print('1')
         sender = msg.sender
@@ -47,12 +59,20 @@ def auto_reply(msg):
             if (res_data['type']=='add_member'):
 #                g =  bot.groups().search(puid=res_data['info'])[0]
 #                g =  bot.groups().search(g.name)[0]
-                g =  bot.groups().search('测试')[0]
-                if sender not in g:
-                    g.add_members(sender,'Welcome!')
+                gs =  bot.groups().search(res_data['info'])
+                if len(gs) == 0:
+#                    base_users = users.friends()
+#                    g = bot.create_group(base_users[len(base_users)-2]+[sender], topic=res_data['info'])
+                    wy = bot.friends().search('文洋')[0]
+                    g = bot.create_group([wy,sender], topic=res_data['info'])
+                    g.send('Welcome! 欢迎 {}加入我们'.format(sender.name))
+                if len(gs) > 0:
+                    g = gs[0]
+                    if sender not in g:
+                        g.add_members(sender,'Welcome!')
+                        g.send('Welcome! 欢迎 {}加入我们'.format(sender.name))
             if (res_data['type']=='Text'):
                 sender.send(res_data['info'])
-   
     print('3')
 embed()
 
