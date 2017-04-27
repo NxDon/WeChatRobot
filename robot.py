@@ -17,10 +17,7 @@ bot.enable_puid('wxpy_puid.pkl')
 
 @bot.register()
 def auto_reply(msg):
-    print(msg.chat)
-    print(msg)
     if isinstance(msg.chat,Group):
-        print('2')
         sender = msg.sender
         if (msg.type == 'Text'):
             message = {'type':msg.type,'text':msg.text,'file_path':''}
@@ -29,20 +26,7 @@ def auto_reply(msg):
             res_data = json.loads(res.text)
             if (res_data['type']=='Text'):
                 sender.send(res_data['info'])
-#        if (msg.type  in ['Picture','Recording','Attachment','Video'] ):
-#            print(msg.file_name)
-#            file_path = './data/' + msg.file_name
-#            print('1')
-#            msg.get_file(file_path)
-#            print('2')
-#            message = {'type':msg.type,'text':msg.text,'file_path':file_path}
-#            print('3')
-#            data = {'sender_puid':sender.puid,'member_puid':'','message' : message}
-#            print('4')
-#            res = requests.post('http://localhost:3000/wechat',json = data)
-#            print('5')
     else:
-        print('1')
         sender = msg.sender
         if (msg.type == 'Friends'):
             sender = bot.accept_friend(msg.card)
@@ -57,8 +41,6 @@ def auto_reply(msg):
             res = requests.post('http://localhost:3000/wechat',json = data)
             res_data = json.loads(res.text)
             if (res_data['type']=='add_member'):
-#                g =  bot.groups().search(puid=res_data['info'])[0]
-#                g =  bot.groups().search(g.name)[0]
                 gs =  bot.groups().search(res_data['info'])
                 if len(gs) == 0:
 #                    base_users = users.friends()

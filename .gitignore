@@ -3,6 +3,7 @@
 *.pkl
 *.swp
 *.json
+*.txt
 #/robot-student-management
 /__pycache__
 
