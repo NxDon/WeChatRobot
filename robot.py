@@ -64,7 +64,7 @@ def auto_reply_text_to_firends(msg):
             g = bot.create_group([wy, sender], topic=groupName)
             g.send('Welcome! 欢迎 {}加入我们'.format(sender.name))
         if len(gs) > 0:
-            if (len(gs[0].members) == 4-1):  # 人快满了，换群
+            if (len(gs[0].members) == 500-1):  # 人快满了，换群
                 bot.groupIndex += 1
             g = gs[0]
             if sender not in g:
