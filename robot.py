@@ -14,7 +14,7 @@ bot = Bot(cache_path=True)
 
 # 开启 puid 获取功能，指定 puid 映射数据的保存路径
 bot.enable_puid('wxpy_puid.pkl')
-
+bot.groupIndex = 1
 
 # 在群中回复用户文本消息　
 @bot.register(Group, TEXT)
@@ -44,40 +44,30 @@ def auto_accept_friends(msg):
 
 @bot.register(Friend, TEXT)
 def auto_reply_text_to_firends(msg):
-
     sender = msg.sender
     message = {'type': msg.type, 'text': msg.text, 'file_path': ''}
     data = {'sender_puid': sender.puid, 'member_puid': '', 'message': message}
     try:
-        res = requests.post('http://localhost:3000/wechat', json=data,timeout=3,headers={'connection':'close'})
+        res = requests.post('http://localhost:3000/wechat', json=data, timeout=3, headers={'connection': 'close'})
         res_data = json.loads(res.text)
     except:
-        pass;
+        return
     if (res_data['type'] == 'Text'):
         sender.send(res_data['info'])
-    if (res_data['type']=='add_member'):
-        gs =  bot.groups().search(res_data['info'])
+    if (res_data['type'] == 'add_member'):
+        groupName = res_data['info']
+        groupName = groupName if bot.groupIndex == 0 else groupName + str(bot.groupIndex)
+        gs = bot.groups().search(groupName)
         sender.send('信息录入完毕，加群成功！')
         if len(gs) == 0:
             wy = bot.friends().search('文洋')[0]
-            g = bot.create_group([wy, sender], topic=res_data['info'])
+            g = bot.create_group([wy, sender], topic=groupName)
             g.send('Welcome! 欢迎 {}加入我们'.format(sender.name))
         if len(gs) > 0:
+            if (len(gs[0].members) == 4-1):  # 人快满了，换群
+                bot.groupIndex += 1
             g = gs[0]
-            cnt = len(g.members)
-            if cnt < 500:
-                if sender not in g:
-                    g.add_members(sender, 'Welcome!')
-                    g.send('Welcome! 欢迎 {}加入我们'.format(sender.name))
-            else:
-                gs2 = bot.groups().search(res_data['info']+'(二)')
-                if len(gs2) == 0:
-                    wy = bot.friends().search('文洋')[0]
-                    g2 = bot.create_group([wy, sender], topic=(res_data['info']+'(二)'))
-                    g2.send('Welcome! 欢迎 {}加入我们'.format(sender.name))
-                if len(gs2) > 0:
-                    g2 = gs2[0]
-                    if sender not in g2:
-                        g2.add_members(sender, 'Welcome!')
-                        g2.send('Welcome! 欢迎 {}加入我们'.format(sender.name))
+            if sender not in g:
+                g.add_members(sender, 'Welcome!')
+                g.send('Welcome! 欢迎 {}加入我们'.format(sender.name))
 embed()
