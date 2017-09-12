@@ -49,8 +49,9 @@ def auto_reply_text_to_firends(msg):
         sender.send(res_data['info'])
     if (res_data['type']=='add_member'):
         gs =  bot.groups().search(res_data['info'])
+        sender.send('信息录入完毕，加群成功！')
         if len(gs) == 0:
-　　　　　　# 发起群聊需要人数最少为3人.(此处建群满足条件人员为：文洋、用户、机器人)
+# 发起群聊需要人数最少为3人.(此处建群满足条件人员为：文洋、用户、机器人)
             wy = bot.friends().search('文洋')[0]
             g = bot.create_group([wy,sender], topic=res_data['info'])
             g.send('Welcome! 欢迎 {}加入我们'.format(sender.name))
