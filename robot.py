@@ -56,7 +56,7 @@ def auto_reply_text_to_firends(msg):
         sender.send(res_data['info'])
     if (res_data['type'] == 'add_member'):
         groupName = res_data['info']
-        groupName = groupName if bot.groupIndex == 0 else groupName + str(bot.groupIndex)
+        groupName = groupName if bot.groupIndex == 1 else groupName + str(bot.groupIndex)
         gs = bot.groups().search(groupName)
         sender.send('信息录入完毕，加群成功！')
         if len(gs) == 0:
