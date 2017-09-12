@@ -64,8 +64,20 @@ def auto_reply_text_to_firends(msg):
             g.send('Welcome! 欢迎 {}加入我们'.format(sender.name))
         if len(gs) > 0:
             g = gs[0]
-            if sender not in g:
-                g.add_members(sender, 'Welcome!')
-                g.send('Welcome! 欢迎 {}加入我们'.format(sender.name))
-
+            cnt = len(g.members)
+            if cnt < 500:
+                if sender not in g:
+                    g.add_members(sender, 'Welcome!')
+                    g.send('Welcome! 欢迎 {}加入我们'.format(sender.name))
+            else:
+                gs2 = bot.groups().search(res_data['info']+'(二)')
+                if len(gs2) == 0:
+                    wy = bot.friends().search('文洋')[0]
+                    g2 = bot.create_group([wy, sender], topic=(res_data['info']+'(二)'))
+                    g2.send('Welcome! 欢迎 {}加入我们'.format(sender.name))
+                if len(gs2) > 0:
+                    g2 = gs2[0]
+                    if sender not in g2:
+                        g2.add_members(sender, 'Welcome!')
+                        g2.send('Welcome! 欢迎 {}加入我们'.format(sender.name))
 embed()
