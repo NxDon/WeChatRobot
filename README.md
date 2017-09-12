@@ -7,7 +7,7 @@
 [https://docs.mongodb.com/manual/installation/](https://docs.mongodb.com/manual/installation/)
 
 #### 运行后台程序 robot-student-management
-- 安装依赖项并启动服务区
+- 安装依赖项并启动服务器
 ```
     cd robot-student-management
     npm install
