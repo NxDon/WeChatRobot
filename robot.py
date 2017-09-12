@@ -48,10 +48,11 @@ def auto_reply_text_to_firends(msg):
     sender = msg.sender
     message = {'type': msg.type, 'text': msg.text, 'file_path': ''}
     data = {'sender_puid': sender.puid, 'member_puid': '', 'message': message}
-
-    res = requests.post('http://localhost:3000/wechat', json=data,timeout=5)
-    res_data = json.loads(res.text)
-    res.close();
+    try:
+        res = requests.post('http://localhost:3000/wechat', json=data,timeout=3,headers={'connection':'close'})
+        res_data = json.loads(res.text)
+    except:
+        pass;
     if (res_data['type'] == 'Text'):
         sender.send(res_data['info'])
     if (res_data['type']=='add_member'):
